@@ -5,19 +5,20 @@ import { useSimulatorState } from "@/hooks/useSimulatorState";
 import { useLiveRates } from "@/hooks/useLiveRates";
 import { simulate } from "@/lib/simulator/model";
 import { fmtRelativeTime } from "@/lib/format";
-import { Header } from "./Header";
-import { ParametersPanel } from "./ParametersPanel";
-import { DecompositionPanel } from "./DecompositionPanel";
-import { ScenariosPanel } from "./ScenariosPanel";
-import { ChartsSection } from "./charts/ChartsSection";
-import { TechnicalNotes } from "./TechnicalNotes";
 import { DEFAULT_INPUTS } from "@/lib/url-state";
+import { Hero } from "./Hero";
+import { InputBlock } from "./InputBlock";
+import { CostBlock } from "./CostBlock";
+import { ParamsColumn } from "./ParamsColumn";
+import { Decomposition } from "./Decomposition";
+import { Scenarios } from "./Scenarios";
+import { ReferralBanner } from "./ReferralBanner";
+import { Notes } from "./Notes";
 
 export function Simulator() {
   const { inputs, setInputs, shareableUrl, hydrated } = useSimulatorState();
   const { rates: liveRates, isLoading } = useLiveRates();
 
-  // Aplica cotações ao vivo apenas se o usuário ainda não personalizou (tem defaults).
   useEffect(() => {
     if (!hydrated || !liveRates) return;
     const isUntouched =
@@ -41,39 +42,61 @@ export function Simulator() {
 
   const liveBadge =
     isLoading && !liveRates ? (
-      <span className="text-stone-400">carregando…</span>
+      <span style={{ color: "var(--ink-soft)" }}>carregando…</span>
     ) : liveRates ? (
       <span
-        className={
-          liveRates.source === "live"
-            ? "text-emerald-300/80"
-            : "text-stone-400"
-        }
+        style={{
+          color: liveRates.source === "live" ? "var(--tijolo)" : "var(--ink-soft)",
+        }}
         title={`Atualizado ${fmtRelativeTime(liveRates.fetchedAt)}`}
       >
         {liveRates.source === "live" ? "● ao vivo" : "○ fallback"}
       </span>
     ) : (
-      <span className="text-stone-400">manual</span>
+      <span style={{ color: "var(--ink-soft)" }}>manual</span>
     );
 
   return (
-    <div className="min-h-screen bg-stone-950 px-5 py-8 font-sans text-stone-200 sm:px-10 sm:py-14">
-      <Header />
-      <main className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
-        <ParametersPanel
-          inputs={inputs}
-          setInputs={setInputs}
-          nominalBrl={result.nominalBrl}
-          liveBadge={liveBadge}
-        />
-        <div>
-          <DecompositionPanel inputs={inputs} result={result} />
-          <ScenariosPanel inputs={inputs} result={result} onCopyLink={shareableUrl} />
+    <>
+      <Hero />
+
+      <main className="mx-auto max-w-6xl px-6 pb-16 sm:px-12">
+        {/* 01 · Input prominente · primeiro toque do usuário */}
+        <div className="mb-10">
+          <InputBlock
+            inputs={inputs}
+            setInputs={setInputs}
+            nominalBrl={result.nominalBrl}
+          />
+        </div>
+
+        {/* 02 · Resultado imediato · feedback do input acima */}
+        <div className="mb-20">
+          <CostBlock inputs={inputs} result={result} onCopyLink={shareableUrl} />
+        </div>
+
+        {/* 03 · Ajuste fino + Decomposição · grid assimétrico */}
+        <div className="grid gap-x-16 gap-y-16 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
+          <div className="lg:pl-12">
+            <ParamsColumn
+              inputs={inputs}
+              setInputs={setInputs}
+              liveBadge={liveBadge}
+            />
+          </div>
+          <div className="space-y-16 lg:pl-12">
+            <Decomposition inputs={inputs} result={result} />
+            <Scenarios inputs={inputs} result={result} />
+          </div>
         </div>
       </main>
-      <ChartsSection inputs={inputs} />
-      <TechnicalNotes />
-    </div>
+
+      {/* 04 · Referral banner · benefício oficial Luxe */}
+      <div className="mx-auto max-w-6xl px-6 pb-16 sm:px-12">
+        <ReferralBanner />
+      </div>
+
+      <Notes />
+    </>
   );
 }

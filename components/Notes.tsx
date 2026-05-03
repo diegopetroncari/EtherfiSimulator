@@ -49,7 +49,7 @@ const NOTES: Note[] = [
   },
 ];
 
-export function NotesV2() {
+export function Notes() {
   return (
     <footer className="relative mx-auto max-w-6xl px-6 pt-20 pb-16 sm:px-12">
       <SoftArch className="absolute left-1/2 top-12 h-12 w-[80%] -translate-x-1/2 opacity-40" />
@@ -124,13 +124,6 @@ export function NotesV2() {
           style={{ color: "var(--ink-soft)" }}
         >
           <a
-            href="/"
-            className="v2-meta hover:opacity-100"
-            style={{ color: "var(--tijolo)", textDecoration: "underline", textUnderlineOffset: "4px" }}
-          >
-            ← voltar para v1 (editorial)
-          </a>
-          <a
             href="https://help.ether.fi"
             target="_blank"
             rel="noopener noreferrer"
@@ -139,7 +132,16 @@ export function NotesV2() {
           >
             help center oficial ether.fi ↗
           </a>
-          <span className="v2-mono text-[10px] mt-2">v2.1 · maio 2026 · com vídeo oficial e referral</span>
+          <a
+            href="https://github.com/diegopetroncari/EtherfiSimulator"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="v2-meta hover:opacity-100"
+            style={{ color: "var(--ink-soft)" }}
+          >
+            código fonte no github ↗
+          </a>
+          <span className="v2-mono text-[10px] mt-2">maio 2026 · open source</span>
         </div>
       </div>
     </footer>

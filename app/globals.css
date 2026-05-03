@@ -1,20 +1,54 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-bricolage), system-ui, sans-serif;
+  --font-serif: var(--font-instrument-serif), Georgia, serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+}
+
+/* Design tokens · modernismo brasileiro
+ * Paleta: concreto cru, vermelho tijolo (SESC Pompéia), ocre.
+ * Fontes: Bricolage Grotesque + Instrument Serif + JetBrains Mono.
+ */
+:root {
+  --concrete: #ece4d2;
+  --concrete-warm: #e6dcc6;
+  --concrete-shadow: #d8cdb4;
+  --ink: #1b1612;
+  --ink-soft: #3b3530;
+  --tijolo: #a8432c;
+  --tijolo-deep: #7e2d1c;
+  --ochre: #c8924a;
+  --sand: #b8a98e;
+  --dust: #a89f8e;
+  --rule: #15110d1a;
 }
 
 @layer base {
   html {
-    color-scheme: dark;
+    color-scheme: light;
   }
   body {
-    background: #0c0a09; /* stone-950 */
-    color: #e7e5e4; /* stone-200 */
-    font-family: var(--font-sans);
-    -webkit-font-smoothing: antialiased;
+    background: var(--concrete);
+    color: var(--ink);
+    font-family: var(--font-bricolage), system-ui, sans-serif;
+    font-feature-settings: "ss01" on, "ss02" on;
+    min-height: 100vh;
+
+    /* textura sutil de papel/concreto */
+    background-image: radial-gradient(
+        circle at 20% 10%,
+        #00000005 0%,
+        transparent 40%
+      ),
+      radial-gradient(circle at 80% 60%, #00000005 0%, transparent 50%),
+      repeating-linear-gradient(
+        0deg,
+        transparent 0,
+        transparent 2px,
+        #00000003 2px,
+        #00000003 3px
+      );
   }
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
@@ -25,8 +59,8 @@
     -moz-appearance: textfield;
   }
   :focus-visible {
-    outline: 2px solid rgb(180 83 9 / 0.6);
-    outline-offset: 2px;
+    outline: 2px solid var(--tijolo);
+    outline-offset: 3px;
   }
   @media (prefers-reduced-motion: reduce) {
     *,
@@ -36,4 +70,155 @@
       transition-duration: 0.01ms !important;
     }
   }
+}
+
+/* Tipografia auxiliar */
+.v2-display {
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+}
+
+.v2-mono {
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-feature-settings: "tnum" on, "ss01" on;
+}
+
+.v2-display-sans {
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-variation-settings: "wdth" 90, "opsz" 96;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+}
+
+.v2-meta {
+  font-family: var(--font-bricolage), sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-variation-settings: "wdth" 100;
+}
+
+/* Curva Niemeyer · linha sutil decorativa */
+.v2-arch {
+  stroke: var(--tijolo);
+  stroke-width: 1;
+  fill: none;
+  opacity: 0.7;
+}
+
+.v2-rule {
+  height: 1px;
+  background: var(--ink);
+  opacity: 0.15;
+  border: 0;
+}
+
+.v2-rule-thick {
+  height: 2px;
+  background: var(--tijolo);
+  border: 0;
+  width: 48px;
+}
+
+/* Pill modernista */
+.v2-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-bricolage), sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.v2-pill:hover {
+  background: var(--ink);
+  color: var(--concrete);
+}
+
+.v2-pill[data-active="true"] {
+  background: var(--tijolo);
+  border-color: var(--tijolo);
+  color: var(--concrete);
+}
+
+.v2-pill:focus-visible {
+  outline: 2px solid var(--tijolo);
+  outline-offset: 3px;
+}
+
+.v2-input {
+  background: transparent;
+  border: 0;
+  border-bottom: 1.5px solid var(--ink);
+  padding: 6px 0;
+  width: 100%;
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 18px;
+  color: var(--ink);
+  transition: border-color 200ms;
+}
+
+.v2-input:focus {
+  outline: none;
+  border-bottom-color: var(--tijolo);
+}
+
+.v2-input[aria-invalid="true"] {
+  border-bottom-color: var(--tijolo-deep);
+}
+
+.v2-side-num {
+  position: absolute;
+  left: -2.5rem;
+  top: 0.4rem;
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--tijolo);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+/* Animação stagger · entrada inicial */
+@keyframes v2-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.v2-stagger > * {
+  animation: v2-rise 600ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+.v2-stagger > *:nth-child(1) {
+  animation-delay: 0ms;
+}
+.v2-stagger > *:nth-child(2) {
+  animation-delay: 80ms;
+}
+.v2-stagger > *:nth-child(3) {
+  animation-delay: 160ms;
+}
+.v2-stagger > *:nth-child(4) {
+  animation-delay: 240ms;
+}
+.v2-stagger > *:nth-child(5) {
+  animation-delay: 320ms;
 }

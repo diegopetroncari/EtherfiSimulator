@@ -3,7 +3,7 @@
 import { Arch } from "./Arch";
 import { VIDEO_URL } from "@/lib/referral";
 
-export function HeroV2() {
+export function Hero() {
   return (
     <header className="relative mx-auto max-w-6xl px-6 pt-10 pb-6 sm:px-12 sm:pt-14 sm:pb-10">
       {/* Linha superior · brand + disclaimer */}

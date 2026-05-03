@@ -8,7 +8,7 @@ interface Props {
   result: SimulationResult;
 }
 
-export function ScenariosV2({ inputs, result }: Props) {
+export function Scenarios({ inputs, result }: Props) {
   const { currency } = inputs;
   const helper =
     currency === "BRL"

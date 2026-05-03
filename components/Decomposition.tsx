@@ -8,7 +8,7 @@ interface Props {
   result: SimulationResult;
 }
 
-export function DecompositionV2({ inputs, result }: Props) {
+export function Decomposition({ inputs, result }: Props) {
   const { currency, isAtm, mode, borrowDays, visaSpreadPct } = inputs;
   const fmtCcy = CCY_FMT[currency];
   const visaTaxa =

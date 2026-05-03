@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-bricolage",
   display: "swap",
 });
 
-const fraunces = Fraunces({
+const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
-  variable: "--font-fraunces",
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-instrument-serif",
   display: "swap",
-  axes: ["opsz"],
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -24,7 +25,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "ether.fi Cash · Simulador BRL · USD · EUR",
   description:
-    "O custo real de gastar em qualquer moeda com um cartão denominado em dólar. Modelo construído a partir da documentação oficial do ether.fi.",
+    "Simulador independente para o cartão ether.fi Cash — calcule o que sai do seu vault em compras BRL, USD e EUR. Site não-oficial criado por diegopetroncari.",
 };
 
 export default function RootLayout({
@@ -35,7 +36,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${inter.variable} ${fraunces.variable} ${jetbrainsMono.variable}`}
+      className={`${bricolage.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}
     >
       <body>{children}</body>
     </html>
