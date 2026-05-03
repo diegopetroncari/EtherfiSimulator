@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { fmtBRL, fmtPct, fmtUSD } from "@/lib/format";
+import { REFERRAL } from "@/lib/referral";
 import type { SimulationResult, SimulatorInputs } from "@/lib/simulator/types";
 
 interface Props {
@@ -70,12 +71,32 @@ export function CostBlock({ inputs, result, onCopyLink }: Props) {
         />
       </div>
 
-      <div
-        className="v2-meta mt-8 flex items-center gap-3"
-        style={{ color: "var(--ink-soft)" }}
-      >
-        <span style={{ background: "var(--ink-soft)", width: "20px", height: "1px" }} />
-        compra nominal · {inputs.currency} {inputs.amount.toLocaleString("pt-BR")}
+      <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
+        <div
+          className="v2-meta flex items-center gap-3"
+          style={{ color: "var(--ink-soft)" }}
+        >
+          <span style={{ background: "var(--ink-soft)", width: "20px", height: "1px" }} />
+          compra nominal · {inputs.currency} {inputs.amount.toLocaleString("pt-BR")}
+        </div>
+
+        <a
+          href={REFERRAL.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="v2-mono inline-flex items-center gap-2 px-4 py-2 text-xs uppercase tracking-[0.15em] transition-all hover:gap-3"
+          style={{
+            background: "var(--ink)",
+            color: "var(--concrete)",
+            borderRadius: "0 16px 0 0",
+          }}
+          aria-label="Abrir conta ether.fi com link de referral"
+        >
+          abrir conta com bônus Luxe
+          <span aria-hidden style={{ color: "var(--ochre)" }}>
+            →
+          </span>
+        </a>
       </div>
     </div>
   );

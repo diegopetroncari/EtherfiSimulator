@@ -2,20 +2,17 @@
 
 import { ParamField, ParamNumber } from "./ParamField";
 import { ParamPill, ParamPillGroup } from "./ParamPill";
-import { CCY_LABEL, CCY_SYMBOL, fmtBRL } from "@/lib/format";
-import type { Currency, SimulatorInputs, Tier } from "@/lib/simulator/types";
+import type { SimulatorInputs, Tier } from "@/lib/simulator/types";
 
 interface Props {
   inputs: SimulatorInputs;
   setInputs: (updater: (prev: SimulatorInputs) => SimulatorInputs) => void;
-  nominalBrl: number;
   liveBadge: React.ReactNode;
 }
 
-const CURRENCIES: Currency[] = ["BRL", "USD", "EUR"];
 const TIERS: Tier[] = ["Core", "Luxe", "Pinnacle"];
 
-export function ParamsColumn({ inputs, setInputs, nominalBrl, liveBadge }: Props) {
+export function ParamsColumn({ inputs, setInputs, liveBadge }: Props) {
   const update = <K extends keyof SimulatorInputs>(k: K, v: SimulatorInputs[K]) =>
     setInputs((p) => ({ ...p, [k]: v }));
   const updateRates = (k: "usdBrl" | "eurBrl", v: number) =>
@@ -25,12 +22,12 @@ export function ParamsColumn({ inputs, setInputs, nominalBrl, liveBadge }: Props
 
   return (
     <section className="relative">
-      <span className="v2-side-num hidden lg:block">§ um · parâmetros</span>
+      <span className="v2-side-num hidden lg:block">§ dois · parâmetros</span>
       <h2
         className="v2-display-sans mb-1 text-3xl"
         style={{ color: "var(--ink)", fontWeight: 600 }}
       >
-        a transação
+        ajuste fino
       </h2>
       <p
         className="mb-10 text-sm"
@@ -40,36 +37,10 @@ export function ParamsColumn({ inputs, setInputs, nominalBrl, liveBadge }: Props
           color: "var(--ink-soft)",
         }}
       >
-        Defina o que você gastaria na rua.
+        Cotações, tier, modo de pagamento, comparação.
       </p>
 
       <div className="space-y-7">
-        <ParamField label="moeda da compra" hint={CCY_LABEL[inputs.currency]}>
-          <ParamPillGroup legend="Moeda da compra">
-            {CURRENCIES.map((c) => (
-              <ParamPill key={c} active={inputs.currency === c} onClick={() => update("currency", c)}>
-                {c}
-              </ParamPill>
-            ))}
-          </ParamPillGroup>
-        </ParamField>
-
-        <ParamField label="valor da compra" hint={inputs.currency} htmlFor="v2-amount">
-          <ParamNumber
-            id="v2-amount"
-            prefix={CCY_SYMBOL[inputs.currency]}
-            value={inputs.amount}
-            min={0}
-            step={50}
-            onValueChange={(v) => update("amount", Math.max(0, v))}
-          />
-          {inputs.currency !== "BRL" ? (
-            <div className="v2-mono mt-2 text-[10px] opacity-60">
-              ≈ {fmtBRL(nominalBrl)} ao spot
-            </div>
-          ) : null}
-        </ParamField>
-
         <div className="grid grid-cols-2 gap-5">
           <ParamField label="USD/BRL" hint={liveBadge} htmlFor="v2-usd">
             <ParamNumber

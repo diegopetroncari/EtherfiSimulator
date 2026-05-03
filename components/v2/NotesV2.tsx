@@ -88,17 +88,59 @@ export function NotesV2() {
       </div>
 
       <div
-        className="v2-meta mt-16 flex flex-wrap items-center justify-between gap-4 pt-8"
-        style={{ borderTop: "1px solid var(--rule)", color: "var(--ink-soft)" }}
+        className="mt-16 grid gap-6 pt-8 lg:grid-cols-[1.4fr_1fr] lg:gap-12"
+        style={{ borderTop: "1px solid var(--rule)" }}
       >
-        <span>modelo informativo · não substitui simulação oficial</span>
-        <a
-          href="/"
-          style={{ color: "var(--tijolo)", textDecoration: "underline", textUnderlineOffset: "4px" }}
+        <div>
+          <div
+            className="v2-meta mb-3"
+            style={{ color: "var(--tijolo)", letterSpacing: "0.2em" }}
+          >
+            site não-oficial
+          </div>
+          <p
+            className="text-sm leading-relaxed"
+            style={{
+              fontFamily: "var(--font-instrument-serif)",
+              color: "var(--ink-soft)",
+            }}
+          >
+            Este simulador <strong style={{ color: "var(--ink)" }}>não é afiliado, endossado nem operado pela ether.fi</strong>.
+            É uma ferramenta independente criada por{" "}
+            <a
+              href="https://github.com/diegopetroncari"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "var(--tijolo)", textDecoration: "underline", textUnderlineOffset: "3px" }}
+            >
+              diegopetroncari
+            </a>{" "}
+            a partir das tabelas e regras públicas do Help Center oficial. Os números são informativos e não substituem a simulação oficial. O link de referral acima é pessoal — você não é obrigado a usá-lo, mas o cadastro através dele te dá pontos bônus rumo ao tier Luxe.
+          </p>
+        </div>
+
+        <div
+          className="flex flex-col justify-end gap-3"
+          style={{ color: "var(--ink-soft)" }}
         >
-          ← voltar para v1 (editorial)
-        </a>
-        <span>v2 · maio 2026</span>
+          <a
+            href="/"
+            className="v2-meta hover:opacity-100"
+            style={{ color: "var(--tijolo)", textDecoration: "underline", textUnderlineOffset: "4px" }}
+          >
+            ← voltar para v1 (editorial)
+          </a>
+          <a
+            href="https://help.ether.fi"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="v2-meta hover:opacity-100"
+            style={{ color: "var(--ink-soft)" }}
+          >
+            help center oficial ether.fi ↗
+          </a>
+          <span className="v2-mono text-[10px] mt-2">v2.1 · maio 2026 · com vídeo oficial e referral</span>
+        </div>
       </div>
     </footer>
   );
