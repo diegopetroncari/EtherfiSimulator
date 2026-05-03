@@ -1,0 +1,219 @@
+/* v2 · Modernismo brasileiro · Niemeyer + Lina Bo Bardi
+ *
+ * Paleta inspirada em concreto cru, vermelho tijolo do SESC Pompéia,
+ * ocre de paredes envelhecidas. Fontes: Bricolage Grotesque (display
+ * orgânico, variable) + Instrument Serif (editorial italic) + JetBrains
+ * Mono (numerais).
+ */
+
+.v2-root {
+  --concrete: #ece4d2;
+  --concrete-warm: #e6dcc6;
+  --concrete-shadow: #d8cdb4;
+  --ink: #1b1612;
+  --ink-soft: #3b3530;
+  --tijolo: #a8432c;
+  --tijolo-deep: #7e2d1c;
+  --ochre: #c8924a;
+  --sand: #b8a98e;
+  --dust: #a89f8e;
+  --rule: #15110d1a;
+
+  background: var(--concrete);
+  color: var(--ink);
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-feature-settings: "ss01" on, "ss02" on;
+  min-height: 100vh;
+
+  /* textura sutil de papel/concreto */
+  background-image: radial-gradient(
+      circle at 20% 10%,
+      #00000005 0%,
+      transparent 40%
+    ),
+    radial-gradient(circle at 80% 60%, #00000005 0%, transparent 50%),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 2px,
+      #00000003 2px,
+      #00000003 3px
+    );
+}
+
+.v2-display {
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+}
+
+.v2-mono {
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-feature-settings: "tnum" on, "ss01" on;
+}
+
+.v2-display-sans {
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-variation-settings: "wdth" 90, "opsz" 96;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+}
+
+.v2-meta {
+  font-family: var(--font-bricolage), sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-variation-settings: "wdth" 100;
+}
+
+/* Curva Niemeyer · linha sutil decorativa */
+.v2-arch {
+  stroke: var(--tijolo);
+  stroke-width: 1;
+  fill: none;
+  opacity: 0.7;
+}
+
+/* Bloco com canto superior direito arrendondado generosamente */
+.v2-card-curved {
+  background: var(--concrete-warm);
+  border: 1px solid var(--rule);
+  border-top-right-radius: 96px;
+  position: relative;
+}
+
+.v2-card-curved::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 96px;
+  height: 96px;
+  border-top-right-radius: 96px;
+  border-top: 1.5px solid var(--tijolo);
+  border-right: 1.5px solid var(--tijolo);
+  pointer-events: none;
+}
+
+.v2-rule {
+  height: 1px;
+  background: var(--ink);
+  opacity: 0.15;
+  border: 0;
+}
+
+.v2-rule-thick {
+  height: 2px;
+  background: var(--tijolo);
+  border: 0;
+  width: 48px;
+}
+
+/* Pill modernista · borda fina, hover com fill terracota */
+.v2-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-bricolage), sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.v2-pill:hover {
+  background: var(--ink);
+  color: var(--concrete);
+}
+
+.v2-pill[data-active="true"] {
+  background: var(--tijolo);
+  border-color: var(--tijolo);
+  color: var(--concrete);
+}
+
+.v2-pill:focus-visible {
+  outline: 2px solid var(--tijolo);
+  outline-offset: 3px;
+}
+
+.v2-input {
+  background: transparent;
+  border: 0;
+  border-bottom: 1.5px solid var(--ink);
+  padding: 6px 0;
+  width: 100%;
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 18px;
+  color: var(--ink);
+  transition: border-color 200ms;
+}
+
+.v2-input:focus {
+  outline: none;
+  border-bottom-color: var(--tijolo);
+}
+
+.v2-input[aria-invalid="true"] {
+  border-bottom-color: var(--tijolo-deep);
+}
+
+.v2-side-num {
+  position: absolute;
+  left: -2.5rem;
+  top: 0.4rem;
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--tijolo);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+/* Animação sutil de entrada · stagger no carregamento */
+@keyframes v2-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.v2-stagger > * {
+  animation: v2-rise 600ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+.v2-stagger > *:nth-child(1) {
+  animation-delay: 0ms;
+}
+.v2-stagger > *:nth-child(2) {
+  animation-delay: 80ms;
+}
+.v2-stagger > *:nth-child(3) {
+  animation-delay: 160ms;
+}
+.v2-stagger > *:nth-child(4) {
+  animation-delay: 240ms;
+}
+.v2-stagger > *:nth-child(5) {
+  animation-delay: 320ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-stagger > * {
+    animation: none;
+  }
+}

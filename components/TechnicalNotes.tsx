@@ -59,8 +59,14 @@ export function TechnicalNotes() {
         </div>
       </div>
 
-      <div className="mt-10 flex items-center justify-between border-t border-stone-800/40 pt-6 font-sans text-[10px] uppercase tracking-[0.25em] text-stone-500">
+      <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-stone-800/40 pt-6 font-sans text-[10px] uppercase tracking-[0.25em] text-stone-500">
         <span>Modelo informativo · não substitui simulação oficial</span>
+        <a
+          href="/v2"
+          className="text-amber-400 underline-offset-4 hover:text-amber-300 hover:underline"
+        >
+          Ver v2 · modernismo brasileiro →
+        </a>
         <span>v3.0 · maio 2026</span>
       </div>
     </footer>
