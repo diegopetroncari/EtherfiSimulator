@@ -79,27 +79,6 @@
   opacity: 0.7;
 }
 
-/* Bloco com canto superior direito arrendondado generosamente */
-.v2-card-curved {
-  background: var(--concrete-warm);
-  border: 1px solid var(--rule);
-  border-top-right-radius: 96px;
-  position: relative;
-}
-
-.v2-card-curved::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 96px;
-  height: 96px;
-  border-top-right-radius: 96px;
-  border-top: 1.5px solid var(--tijolo);
-  border-right: 1.5px solid var(--tijolo);
-  pointer-events: none;
-}
-
 .v2-rule {
   height: 1px;
   background: var(--ink);

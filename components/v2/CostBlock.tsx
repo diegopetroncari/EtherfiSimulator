@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { fmtBRL, fmtPct, fmtUSD } from "@/lib/format";
 import { REFERRAL } from "@/lib/referral";
 import type { SimulationResult, SimulatorInputs } from "@/lib/simulator/types";
@@ -12,6 +12,7 @@ interface Props {
 }
 
 export function CostBlock({ inputs, result, onCopyLink }: Props) {
+  const headingId = useId();
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -25,36 +26,78 @@ export function CostBlock({ inputs, result, onCopyLink }: Props) {
   };
 
   return (
-    <div className="v2-card-curved relative overflow-hidden p-8 sm:p-12" aria-live="polite">
-      <div className="flex items-start justify-between">
-        <div className="v2-meta">
-          custo efetivo líquido
-          <br />
-          em <span style={{ color: "var(--tijolo)" }}>BRL</span> · após cashback
+    <section
+      aria-labelledby={headingId}
+      aria-live="polite"
+      className="relative overflow-hidden p-6 sm:p-10"
+      style={{
+        background: "var(--concrete-warm)",
+        border: "1.5px solid var(--ink)",
+        borderTopRightRadius: "24px",
+      }}
+    >
+      {/* Header espelhado ao InputBlock · marker 02 · titulo · meta à direita */}
+      <div className="flex flex-wrap items-baseline justify-between gap-4">
+        <div className="flex items-baseline gap-3">
+          <span
+            className="v2-mono text-xs"
+            style={{ color: "var(--tijolo)", letterSpacing: "0.2em" }}
+          >
+            02
+          </span>
+          <h2
+            id={headingId}
+            className="v2-display-sans text-2xl sm:text-3xl"
+            style={{ color: "var(--ink)", fontWeight: 600 }}
+          >
+            o custo efetivo
+          </h2>
         </div>
-        <button
-          type="button"
-          onClick={handleCopy}
-          className="v2-meta hover:underline"
-          style={{ color: "var(--tijolo)", paddingTop: "2px" }}
+        <div className="flex items-baseline gap-4">
+          <span className="v2-meta" style={{ color: "var(--ink-soft)" }}>
+            em BRL · após cashback
+          </span>
+          <button
+            type="button"
+            onClick={handleCopy}
+            className="v2-meta hover:underline"
+            style={{ color: "var(--tijolo)" }}
+          >
+            {copied ? "✓ copiado" : "copiar link →"}
+          </button>
+        </div>
+      </div>
+
+      {/* Número herói · mesmo lugar visual que o input gigante do bloco 01 */}
+      <div className="mt-8 grid items-end gap-8 lg:grid-cols-[auto_1fr]">
+        <div
+          className="v2-display leading-[0.9]"
+          style={{
+            color: "var(--tijolo)",
+            fontSize: "clamp(2.5rem, 8vw, 5rem)",
+            letterSpacing: "-0.02em",
+            borderBottom: "2px solid var(--ink)",
+            paddingBottom: "8px",
+          }}
         >
-          {copied ? "✓ copiado" : "copiar link →"}
-        </button>
+          {fmtBRL(result.netCostBrl)}
+        </div>
+
+        <div
+          className="v2-meta flex items-baseline gap-3 pb-3"
+          style={{ color: "var(--ink-soft)" }}
+        >
+          <span style={{ background: "var(--tijolo)", width: "16px", height: "1.5px" }} />
+          a partir de{" "}
+          <span className="v2-mono" style={{ color: "var(--ink)" }}>
+            {inputs.currency} {inputs.amount.toLocaleString("pt-BR")}
+          </span>{" "}
+          em compras
+        </div>
       </div>
 
-      <div
-        className="v2-display mt-6 leading-[0.9]"
-        style={{
-          color: "var(--tijolo)",
-          fontSize: "clamp(4rem, 14vw, 9.5rem)",
-        }}
-      >
-        {fmtBRL(result.netCostBrl)}
-      </div>
-
-      <hr className="v2-rule mt-6" style={{ width: "120px" }} />
-
-      <div className="mt-5 grid grid-cols-3 gap-x-6 gap-y-2 sm:max-w-md">
+      {/* Stats · mesma grade triplicada do InputBlock-style */}
+      <div className="mt-6 grid grid-cols-3 gap-x-6 gap-y-2 sm:max-w-md">
         <Stat
           label="overhead"
           value={`${result.overheadNet >= 0 ? "+" : ""}${fmtPct(result.overheadNet, 2)}`}
@@ -71,15 +114,11 @@ export function CostBlock({ inputs, result, onCopyLink }: Props) {
         />
       </div>
 
-      <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
-        <div
-          className="v2-meta flex items-center gap-3"
-          style={{ color: "var(--ink-soft)" }}
-        >
-          <span style={{ background: "var(--ink-soft)", width: "20px", height: "1px" }} />
-          compra nominal · {inputs.currency} {inputs.amount.toLocaleString("pt-BR")}
-        </div>
-
+      {/* CTA referral · alinhado com a borda direita */}
+      <div
+        className="mt-8 flex flex-wrap items-center justify-end gap-4 pt-4"
+        style={{ borderTop: "1px solid var(--rule)" }}
+      >
         <a
           href={REFERRAL.url}
           target="_blank"
@@ -98,7 +137,7 @@ export function CostBlock({ inputs, result, onCopyLink }: Props) {
           </span>
         </a>
       </div>
-    </div>
+    </section>
   );
 }
 
