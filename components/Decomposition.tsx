@@ -65,7 +65,7 @@ export function Decomposition({ inputs, result }: Props) {
     mode === "Borrow"
       ? {
           n: isAtm ? 5 : 4,
-          label: "Juros Borrow · 4% APY contínuo",
+          label: "Juros Borrow · 4% APY efetivo",
           value: `+ ${fmtUSD(result.borrowInterestUsd)}`,
           sub: `${borrowDays} dias · começa no instante da compra`,
           tone: "negative",

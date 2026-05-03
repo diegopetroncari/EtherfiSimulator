@@ -46,7 +46,7 @@ export class InvalidRateError extends Error {
  * Premissas auditadas (a confirmar contra docs ether.fi 2026):
  *   - FX fee BRL = 1%; USD = 0%; EUR = 0% (beta).
  *   - ATM = 2%, sem cashback.
- *   - Borrow: capitalização contínua a 4% APY (e^(0.04·d/365) − 1).
+ *   - Borrow: 4% APY efetivo ((1.04)^(d/365) − 1) — exemplo doc $100→$104 em 365d.
  *   - Cashback EUR 3º slab = 0,1% (vs 0,5% no Standard).
  */
 export function simulate(inputs: SimulatorInputs): SimulationResult {
@@ -75,7 +75,7 @@ export function simulate(inputs: SimulatorInputs): SimulationResult {
   const borrowDays = Math.max(0, Number(inputs.borrowDays) || 0);
   const borrowInterestUsd =
     inputs.mode === "Borrow"
-      ? totalUsdPreInterest * (Math.exp(BORROW_APY * (borrowDays / 365)) - 1)
+      ? totalUsdPreInterest * (Math.pow(1 + BORROW_APY, borrowDays / 365) - 1)
       : 0;
 
   const vaultDebitUsd = totalUsdPreInterest + borrowInterestUsd;

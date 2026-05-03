@@ -56,15 +56,29 @@ describe("calcCashback · Standard / Luxe e Pinnacle", () => {
 });
 
 describe("calcCashback · EUR table", () => {
-  it("Core EUR: 1º slab termina em €1400 a 3%", () => {
-    closeTo(calcCashback("EUR", "Core", 0, 1400), 42);
+  it("Core EUR: 1º slab termina em €800 a 3%", () => {
+    closeTo(calcCashback("EUR", "Core", 0, 800), 24);
+  });
+
+  it("Core EUR: cruza os três slabs em uma única tx", () => {
+    // monthlyAcc=0, tx=2000 → 800·0,03 + 700·0,01 + 500·0,001 = 24 + 7 + 0,5 = 31,5
+    closeTo(calcCashback("EUR", "Core", 0, 2000), 31.5);
   });
 
   it("Core EUR: 3º slab cai para 0,1%", () => {
-    closeTo(calcCashback("EUR", "Core", 3000, 100), 0.1);
+    closeTo(calcCashback("EUR", "Core", 1600, 100), 0.1);
   });
 
-  it("Luxe EUR: spend 6700 cai inteiro no primeiro slab a 3%", () => {
-    closeTo(calcCashback("EUR", "Luxe", 0, 6700), 201);
+  it("Luxe EUR: spend 2000 cai inteiro no primeiro slab a 3%", () => {
+    closeTo(calcCashback("EUR", "Luxe", 0, 2000), 60);
+  });
+
+  it("Luxe EUR: cruza slab 1→2→3", () => {
+    // monthlyAcc=0, tx=6000 → 2000·0,03 + 3000·0,01 + 1000·0,001 = 60 + 30 + 1 = 91
+    closeTo(calcCashback("EUR", "Luxe", 0, 6000), 91);
+  });
+
+  it("Pinnacle EUR: spend 5000 inteiro no 1º slab a 3%", () => {
+    closeTo(calcCashback("EUR", "Pinnacle", 0, 5000), 150);
   });
 });

@@ -86,10 +86,16 @@ describe("simulate · ATM operation", () => {
 });
 
 describe("simulate · Borrow Mode", () => {
-  it("adiciona juros contínuos a 4% APY sobre vaultDebit pré-juros", () => {
-    const r = simulate({ ...baseInputs, currency: "USD", amount: 1000, mode: "Borrow", borrowDays: 365 });
+  it("aplica 4% APY efetivo: $100 vira exatamente $104 em 365d (doc ether.fi)", () => {
+    const r = simulate({ ...baseInputs, currency: "USD", amount: 100, mode: "Borrow", borrowDays: 365 });
+    closeTo(r.borrowInterestUsd, 4);
+    closeTo(r.vaultDebitUsd, 104);
+  });
+
+  it("juros usam (1+APY)^(d/365) − 1 sobre vaultDebit pré-juros", () => {
+    const r = simulate({ ...baseInputs, currency: "USD", amount: 1000, mode: "Borrow", borrowDays: 60 });
     const pre = 1000;
-    closeTo(r.borrowInterestUsd, pre * (Math.exp(0.04) - 1));
+    closeTo(r.borrowInterestUsd, pre * (Math.pow(1.04, 60 / 365) - 1));
   });
 
   it("borrowDays = 0 → juros = 0", () => {

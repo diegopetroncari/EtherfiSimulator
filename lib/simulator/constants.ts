@@ -29,18 +29,18 @@ export const CASHBACK: CashbackTables = {
   },
   EUR: {
     Core: [
-      { upTo: 1400, rate: 0.03 },
-      { upTo: 2500, rate: 0.01 },
+      { upTo: 800, rate: 0.03 },
+      { upTo: 1500, rate: 0.01 },
       { upTo: Infinity, rate: 0.001 },
     ],
     Luxe: [
-      { upTo: 6700, rate: 0.03 },
-      { upTo: 11700, rate: 0.01 },
+      { upTo: 2000, rate: 0.03 },
+      { upTo: 5000, rate: 0.01 },
       { upTo: Infinity, rate: 0.001 },
     ],
     Pinnacle: [
-      { upTo: 35000, rate: 0.03 },
-      { upTo: 50000, rate: 0.01 },
+      { upTo: 5000, rate: 0.03 },
+      { upTo: 20000, rate: 0.01 },
       { upTo: Infinity, rate: 0.001 },
     ],
   },
@@ -54,7 +54,11 @@ export const FX_FEE_RATE = {
 
 export const ATM_FEE_RATE = 0.02;
 
-/** APY nominal usado em capitalização contínua: V·(e^(r·t/365) − 1). */
+/**
+ * Rendimento anual efetivo do Borrow Mode.
+ * Doc oficial: "4% APY" com exemplo `$100 → $104 em 1 ano`. Aplicar como
+ * yield efetivo: V·((1 + APY)^(t/365) − 1).
+ */
 export const BORROW_APY = 0.04;
 
 /** MCCs informativos que não geram cashback. Não é usado pelo modelo (apenas exposto à UI). */

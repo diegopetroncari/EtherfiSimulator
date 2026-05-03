@@ -30,7 +30,7 @@ const NOTES: Note[] = [
   {
     marker: "v.",
     title: "Borrow Mode",
-    body: "Os juros começam a render no instante da compra, sem grace period, com capitalização contínua a 4% APY. Reembolsos não abatem automaticamente o saldo devedor — caem no vault e exigem repagamento manual.",
+    body: "Os juros começam a render no instante da compra, sem grace period, a 4% APY efetivo — $100 emprestados viram $104 ao fim de 365 dias, conforme exemplo da doc oficial. Reembolsos não abatem automaticamente o saldo devedor: caem no vault e exigem repagamento manual.",
   },
   {
     marker: "vi.",

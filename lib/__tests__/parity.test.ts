@@ -3,11 +3,17 @@ import { simulate } from "../simulator/model";
 import type { SimulatorInputs } from "../simulator/types";
 
 /**
- * Paridade com etherfi-simulador.jsx (versão pré-refactor).
+ * Paridade com a especificação documentada da ether.fi Cash.
  *
- * Reproduz a lógica original linha-por-linha em uma função `legacyCalc` e
- * confronta com `simulate` em casos onde o bug do cashback NÃO é acionado
- * (monthlyAcc dentro de slabs onde o cursor regressivo não muda o resultado).
+ * Originalmente este teste reproduzia a lógica do JSX legado (etherfi-simulador.jsx).
+ * Após auditoria contra o Help Center oficial (2026-05), duas correções foram aplicadas
+ * tanto ao modelo quanto a esta referência:
+ *   1. Tabela EUR de cashback: thresholds atualizados (Core 800/1500, Luxe 2000/5000,
+ *      Pinnacle 5000/20000).
+ *   2. Borrow Mode: 4% APY efetivo via (1.04)^(d/365), não capitalização contínua.
+ *
+ * O bug histórico do cursor regressivo do cashback continua excluído (cases abaixo
+ * usam monthlyAcc onde o bug não dispara).
  */
 
 interface LegacyInputs {
@@ -42,18 +48,18 @@ const LEGACY_CASHBACK = {
   },
   EUR: {
     Core: [
-      { upTo: 1400, rate: 0.03 },
-      { upTo: 2500, rate: 0.01 },
+      { upTo: 800, rate: 0.03 },
+      { upTo: 1500, rate: 0.01 },
       { upTo: Infinity, rate: 0.001 },
     ],
     Luxe: [
-      { upTo: 6700, rate: 0.03 },
-      { upTo: 11700, rate: 0.01 },
+      { upTo: 2000, rate: 0.03 },
+      { upTo: 5000, rate: 0.01 },
       { upTo: Infinity, rate: 0.001 },
     ],
     Pinnacle: [
-      { upTo: 35000, rate: 0.03 },
-      { upTo: 50000, rate: 0.01 },
+      { upTo: 5000, rate: 0.03 },
+      { upTo: 20000, rate: 0.01 },
       { upTo: Infinity, rate: 0.001 },
     ],
   },
@@ -126,7 +132,7 @@ function legacyCalc(inp: LegacyInputs) {
 
   let interestUsd = 0;
   if (inp.mode === "Borrow") {
-    interestUsd = totalUsd * (Math.exp(0.04 * (inp.borrowDays / 365)) - 1);
+    interestUsd = totalUsd * (Math.pow(1.04, inp.borrowDays / 365) - 1);
   }
   const totalUsdComJuros = totalUsd + interestUsd;
   const liquidoUsd = totalUsdComJuros - cashbackUsd;
